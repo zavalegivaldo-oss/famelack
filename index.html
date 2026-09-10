@@ -1,0 +1,3629 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>famelack.</title>
+
+<style>
+:root{
+  --primary:#ef4444;
+  --bg:#0b1622;
+  --panel:#071d38;
+  --muted:#829bb7;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:-apple-system,system-ui,Segoe UI,sans-serif;
+  color:#fff;
+  background:var(--bg);
+  min-height:100vh;
+}
+
+button,input,select{font:inherit}
+
+.app{
+  max-width:480px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:80px;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:rgba(4,20,40,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight:bold;
+}
+
+.logo{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+.page{
+  display:none;
+  padding:16px;
+}
+
+.page.active{display:block}
+
+.box{
+  background:rgba(7,29,56,.92);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.balance{
+  background:linear-gradient(145deg,#0a2f5e,#061a34);
+  border:1px solid rgba(43,127,255,.2);
+}
+
+.label{
+  color:#8da6c1;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.big{
+  font-size:32px;
+  font-weight:bold;
+  margin:6px 0;
+}
+
+.green{color:#25e58a}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:14px;
+}
+
+.stat{
+  text-align:center;
+  background:rgba(4,22,43,.7);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:11px;
+  padding:10px 4px;
+}
+
+.stat small{
+  color:#829bb7;
+  font-size:8px;
+}
+
+.stat b{
+  display:block;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.title{
+  font-size:16px;
+  font-weight:bold;
+  margin:16px 0 10px;
+}
+
+.btn{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.start{
+  height:120px;
+  border:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(145deg,#0c3f82,#0759d9);
+}
+
+input,select,textarea{
+  width:100%;
+  height:44px;
+  margin:6px 0 10px;
+  background:#04162c;
+  color:#fff;
+  border:1px solid #244b73;
+  border-radius:10px;
+  padding:0 12px;
+  outline:none;
+}
+
+label{
+  display:block;
+  color:#a9bdd2;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
+  height:70px;
+  background:rgba(4,20,40,.98);
+  border-top:1px solid rgba(255,255,255,.08);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  z-index:80;
+}
+
+.nav button{
+  background:none;
+  border:0;
+  color:#7189a7;
+  font-size:10px;
+  cursor:pointer;
+  padding:8px 0;
+}
+
+.nav button.active{color:var(--primary)}
+
+
+/* =========================================================
+   NOVA TELA DE BOAS-VINDAS
+========================================================= */
+
+#welcome{
+  position:fixed;
+  inset:0;
+  z-index:300;
+  overflow-y:auto;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(239,68,68,.12),transparent 35%),
+    #0b1622;
+}
+
+.welcome-inner{
+  width:100%;
+  max-width:480px;
+  margin:auto;
+  padding:28px 18px 42px;
+}
+
+.welcome-logo{
+  width:82px;
+  height:82px;
+  border-radius:22px;
+  object-fit:cover;
+  display:block;
+  margin:8px auto 18px;
+  box-shadow:0 15px 45px rgba(0,0,0,.35);
+}
+
+.welcome-brand{
+  text-align:center;
+  font-size:29px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.welcome-sub{
+  text-align:center;
+  color:#829bb7;
+  font-size:12px;
+  margin-top:6px;
+}
+
+.welcome-hero{
+  text-align:center;
+  padding:20px 0 22px;
+}
+
+.welcome-hero h1{
+  font-size:27px;
+  line-height:1.15;
+  margin-bottom:12px;
+}
+
+.welcome-hero p{
+  color:#a7bbcf;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.welcome-description{
+  background:linear-gradient(145deg,#0a294b,#071d38);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:19px;
+  padding:19px;
+  margin-bottom:16px;
+}
+
+.welcome-description h2{
+  font-size:16px;
+  margin-bottom:9px;
+}
+
+.welcome-description p{
+  color:#91a9c0;
+  font-size:11px;
+  line-height:1.7;
+}
+
+.welcome-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-bottom:18px;
+}
+
+.w-info{
+  background:#071d38;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:15px;
+  padding:14px;
+}
+
+.w-info b{
+  display:block;
+  font-size:12px;
+  margin-bottom:6px;
+}
+
+.w-info span{
+  color:#829bb7;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.steps-title{
+  font-size:18px;
+  margin:22px 0 11px;
+}
+
+.welcome-step{
+  display:flex;
+  gap:12px;
+  background:#071d38;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:9px;
+}
+
+.step-number{
+  flex:0 0 30px;
+  height:30px;
+  border-radius:9px;
+  background:#0b3c72;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.welcome-step b{
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.welcome-step p{
+  color:#829bb7;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.welcome-bottom{
+  margin-top:24px;
+  background:linear-gradient(145deg,#0c3f82,#0759d9);
+  border-radius:18px;
+  padding:19px;
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.welcome-bottom h3{
+  font-size:16px;
+  margin-bottom:7px;
+}
+
+.welcome-bottom p{
+  color:#c8dcf0;
+  font-size:10px;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+
+.welcome-actions{
+  display:grid;
+  gap:8px;
+}
+
+.welcome-actions .btn{
+  background:#ef4444;
+}
+
+.welcome-login{
+  background:rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+#login{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:#0b1622;
+}
+
+#login .card{
+  width:100%;
+  max-width:360px;
+  background:rgba(7,29,56,.95);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:28px;
+}
+
+.login-description{
+  color:#829bb7;
+  font-size:11px;
+  line-height:1.6;
+  text-align:center;
+  margin-top:9px;
+}
+
+
+/* =========================================================
+   CADASTRO
+========================================================= */
+
+#authFlow{
+  position:fixed;
+  inset:0;
+  z-index:95;
+  background:#0b1622;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:18px;
+  overflow-y:auto;
+}
+
+.auth-card{
+  width:100%;
+  max-width:390px;
+  background:rgba(7,29,56,.97);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:25px;
+  position:relative;
+  overflow:hidden;
+  margin:auto;
+}
+
+.auth-progress{
+  display:flex;
+  gap:5px;
+  margin-bottom:24px;
+}
+
+.auth-progress span{
+  height:4px;
+  flex:1;
+  border-radius:3px;
+  background:#173552;
+}
+
+.auth-progress span.active{
+  background:var(--primary);
+}
+
+.auth-step{
+  display:none;
+  animation:authIn .3s ease;
+}
+
+.auth-step.active{display:block}
+
+@keyframes authIn{
+  from{opacity:0;transform:translateX(12px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+.auth-logo{
+  width:68px;
+  height:68px;
+  border-radius:17px;
+  display:block;
+  margin:4px auto 17px;
+}
+
+.auth-title{
+  text-align:center;
+  font-size:23px;
+  margin-bottom:8px;
+}
+
+.auth-sub{
+  text-align:center;
+  color:#829bb7;
+  font-size:11px;
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+.auth-processing{
+  position:absolute;
+  inset:0;
+  background:rgba(7,29,56,.985);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:5;
+  text-align:center;
+  padding:30px;
+}
+
+.auth-processing.show{display:flex}
+
+.spinner{
+  width:32px;
+  height:32px;
+  border:3px solid #244b73;
+  border-top-color:var(--primary);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+  margin-bottom:14px;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.processing-bar{
+  width:190px;
+  height:4px;
+  background:#173552;
+  border-radius:5px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.processing-bar div{
+  width:45%;
+  height:100%;
+  background:var(--primary);
+  animation:processBar 1.6s ease-in-out infinite;
+}
+
+@keyframes processBar{
+  0%{transform:translateX(-120%)}
+  100%{transform:translateX(450%)}
+}
+
+.auth-back{
+  background:none;
+  border:0;
+  color:#829bb7;
+  font-size:11px;
+  padding:10px 0 3px;
+  cursor:pointer;
+}
+
+.auth-note{
+  background:#061a31;
+  border:1px solid #1b4165;
+  border-radius:11px;
+  padding:12px;
+  color:#829bb7;
+  font-size:10px;
+  line-height:1.55;
+  margin-bottom:14px;
+}
+
+.country-search{
+  margin-bottom:7px;
+}
+
+.country-list{
+  max-height:220px;
+  overflow-y:auto;
+  border:1px solid #244b73;
+  border-radius:10px;
+  background:#04162c;
+}
+
+.country-option{
+  padding:13px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  font-size:12px;
+  cursor:pointer;
+}
+
+.country-option:last-child{
+  border-bottom:0;
+}
+
+.country-option.selected{
+  background:rgba(239,68,68,.16);
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #17334f;
+  font-size:11px;
+}
+
+.summary-row:last-child{border-bottom:0}
+
+.summary-row span{color:#829bb7}
+
+.summary-row b{
+  text-align:right;
+  word-break:break-word;
+}
+
+.checkline{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  background:#061a31;
+  border:1px solid #1b4165;
+  border-radius:11px;
+  padding:12px;
+  margin:14px 0;
+  font-size:10px;
+  color:#a9bdd2;
+}
+
+.checkline input{
+  width:16px;
+  height:16px;
+  margin:0;
+}
+
+
+/* =========================================================
+   INFORMAÇÃO EXTRA DA ABA FRONTAL
+========================================================= */
+
+.account-welcome{
+  background:linear-gradient(145deg,#071d38,#092c51);
+  border:1px solid rgba(43,127,255,.22);
+  border-radius:17px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.account-welcome small{
+  color:#829bb7;
+  font-size:9px;
+}
+
+.account-welcome h2{
+  font-size:20px;
+  margin:5px 0;
+}
+
+.account-welcome p{
+  color:#91a9c0;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.front-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-bottom:15px;
+}
+
+.front-info{
+  background:#071d38;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:13px;
+}
+
+.front-info span{
+  display:block;
+  color:#829bb7;
+  font-size:9px;
+  margin-bottom:5px;
+}
+
+.front-info b{
+  font-size:13px;
+}
+
+.front-section{
+  background:#071d38;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.front-section h3{
+  font-size:14px;
+  margin-bottom:7px;
+}
+
+.front-section>p{
+  color:#829bb7;
+  font-size:10px;
+  line-height:1.6;
+}
+
+.front-guide{
+  display:flex;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #17334f;
+}
+
+.front-guide:last-child{border-bottom:0}
+
+.front-guide-number{
+  width:27px;
+  height:27px;
+  flex:0 0 27px;
+  border-radius:8px;
+  background:#0b3c72;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.front-guide b{
+  display:block;
+  font-size:11px;
+  margin-bottom:4px;
+}
+
+.front-guide span{
+  color:#829bb7;
+  font-size:9px;
+  line-height:1.5;
+}
+
+.blue-bottom{
+  background:linear-gradient(145deg,#0c3f82,#0759d9);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:18px;
+  margin-top:8px;
+}
+
+.blue-bottom h3{
+  font-size:15px;
+  margin-bottom:6px;
+}
+
+.blue-bottom p{
+  color:#c7daf0;
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   RESTANTE DA INTERFACE
+========================================================= */
+
+.presets{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  margin:8px 0;
+}
+
+.preset{
+  padding:10px 3px;
+  border-radius:9px;
+  background:#061a33;
+  color:#fff;
+  border:1px solid #24486c;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.preset.active{
+  background:var(--primary);
+  border-color:#fff3;
+}
+
+.card-visual{
+  background:linear-gradient(135deg,#182c43,#06162a);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:14px;
+  min-height:185px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow:0 14px 35px rgba(0,0,0,.25);
+}
+
+.card-chip{
+  width:36px;
+  height:27px;
+  border-radius:6px;
+  background:linear-gradient(135deg,#aaa,#555);
+}
+
+.card-number{
+  font-size:20px;
+  letter-spacing:2px;
+}
+
+.card-meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+}
+
+.card-meta small{
+  display:block;
+  color:#7189a5;
+  font-size:7px;
+  margin-bottom:3px;
+}
+
+.saved-card{
+  border:1px solid rgba(37,229,138,.2);
+  background:rgba(5,39,34,.5);
+  border-radius:16px;
+  padding:14px;
+}
+
+.card-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.btn-secondary{
+  width:100%;
+  padding:12px;
+  border-radius:11px;
+  background:#102a44;
+  color:#fff;
+  border:1px solid #244b73;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.withdraw-step{display:none}
+.withdraw-step.active{display:block}
+
+.withdraw-method{
+  border:1px solid #244b73;
+  border-radius:14px;
+  padding:14px;
+  background:#061a31;
+  cursor:pointer;
+  margin-bottom:10px;
+}
+
+.withdraw-method.selected{
+  border-color:var(--primary);
+  background:rgba(239,68,68,.08);
+}
+
+.withdraw-method-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.withdraw-card-mini{
+  font-size:15px;
+  letter-spacing:1px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.withdraw-check{
+  width:18px;
+  height:18px;
+  border:1px solid #55728e;
+  border-radius:50%;
+}
+
+.withdraw-method.selected .withdraw-check{
+  background:var(--primary);
+  border-color:var(--primary);
+  box-shadow:inset 0 0 0 4px #061a31;
+}
+
+.account-section{margin-bottom:14px}
+
+.account-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:12px 0;
+  border-bottom:1px solid #17334f;
+  font-size:11px;
+}
+
+.account-row:last-child{border-bottom:0}
+
+.account-row span{color:#829bb7}
+
+.account-row b{
+  text-align:right;
+  max-width:60%;
+  word-break:break-word;
+}
+
+.account-status{
+  display:inline-flex;
+  padding:4px 8px;
+  border-radius:20px;
+  background:rgba(37,229,138,.1);
+  color:#25e58a;
+  font-size:9px;
+}
+
+.danger-btn{
+  background:#3b1418;
+  border:1px solid rgba(239,68,68,.3);
+  color:#ff8d95;
+}
+
+#session{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:none;
+  z-index:100;
+}
+
+#session.active{display:block}
+
+#notif{
+  position:fixed;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%) translateY(-80px);
+  z-index:200;
+  background:rgba(7,29,56,.97);
+  border:1px solid var(--primary);
+  border-radius:14px;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  transition:transform .35s ease;
+  max-width:90%;
+}
+
+#notif.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+#notif img{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  object-fit:cover;
+}
+
+#confirm{
+  position:fixed;
+  inset:0;
+  z-index:150;
+  background:rgba(0,0,0,.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+#confirm.show{display:flex}
+
+.confirm-card{
+  width:100%;
+  max-width:320px;
+  background:#1a0e10;
+  border:1px solid rgba(239,68,68,.3);
+  border-radius:20px;
+  padding:24px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     NOVA TELA DE BOAS-VINDAS
+======================================================= -->
+
+<div id="welcome">
+  <div class="welcome-inner">
+
+    <img
+      class="welcome-logo"
+      src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
+    >
+
+    <div class="welcome-brand">famelack.</div>
+    <div class="welcome-sub">Watch • Earn • Withdraw</div>
+
+    <div class="welcome-hero">
+      <h1>Bienvenue sur famelack.</h1>
+      <p>
+        Une plateforme conçue pour vous permettre de découvrir des contenus,
+        suivre votre activité et gérer votre espace personnel depuis une seule
+        interface.
+      </p>
+    </div>
+
+    <div class="welcome-description">
+      <h2>Découvrez votre nouvel espace</h2>
+      <p>
+        Créez votre compte, configurez votre profil et découvrez progressivement
+        les différentes fonctions disponibles sur famelack. Votre espace
+        personnel vous permet de consulter vos informations, suivre votre
+        solde, gérer votre portefeuille et consulter votre historique.
+      </p>
+    </div>
+
+    <div class="welcome-info">
+      <div class="w-info">
+        <b>Votre compte</b>
+        <span>Un espace personnel avec vos informations et votre identité.</span>
+      </div>
+
+      <div class="w-info">
+        <b>Votre solde</b>
+        <span>Consultez votre valeur disponible directement depuis l'accueil.</span>
+      </div>
+
+      <div class="w-info">
+        <b>Votre activité</b>
+        <span>Suivez votre temps, vos sessions et les opérations enregistrées.</span>
+      </div>
+
+      <div class="w-info">
+        <b>Votre portefeuille</b>
+        <span>Gérez les informations nécessaires aux retraits.</span>
+      </div>
+    </div>
+
+    <div class="steps-title">Comment commencer ?</div>
+
+    <div class="welcome-step">
+      <div class="step-number">01</div>
+      <div>
+        <b>Créer votre compte</b>
+        <p>Commencez par sélectionner « Créer mon compte » et ouvrez votre espace personnel.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">02</div>
+      <div>
+        <b>Ajouter votre adresse e-mail</b>
+        <p>Indiquez une adresse e-mail valide afin d'associer votre identité à votre compte.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">03</div>
+      <div>
+        <b>Choisir votre nom d'utilisateur</b>
+        <p>Définissez le nom qui sera affiché dans votre espace personnel.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">04</div>
+      <div>
+        <b>Configurer votre profil</b>
+        <p>Complétez les informations de base nécessaires à la configuration de votre compte.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">05</div>
+      <div>
+        <b>Sélectionner votre pays</b>
+        <p>Choisissez votre pays afin de terminer la configuration régionale du profil.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">06</div>
+      <div>
+        <b>Vérifier vos informations</b>
+        <p>Avant de terminer, contrôlez les données saisies et confirmez leur exactitude.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">07</div>
+      <div>
+        <b>Accéder à votre espace</b>
+        <p>Après la création du compte, votre tableau de bord personnel devient accessible.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">08</div>
+      <div>
+        <b>Suivre votre activité</b>
+        <p>Consultez votre temps, vos sessions, vos opérations et les informations de votre compte.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">09</div>
+      <div>
+        <b>Consulter votre portefeuille</b>
+        <p>Ajoutez et gérez les informations nécessaires lorsque vous souhaitez utiliser la fonction de retrait.</p>
+      </div>
+    </div>
+
+    <div class="welcome-step">
+      <div class="step-number">10</div>
+      <div>
+        <b>Gérer vos retraits</b>
+        <p>Consultez votre solde disponible, sélectionnez une méthode enregistrée et suivez les étapes de demande de retrait.</p>
+      </div>
+    </div>
+
+    <div class="welcome-bottom">
+      <h3>Prêt à commencer ?</h3>
+      <p>
+        Faites défiler la page pour découvrir les informations importantes,
+        puis créez votre espace personnel lorsque vous êtes prêt.
+      </p>
+
+      <div class="welcome-actions">
+        <button class="btn" onclick="openWelcomeAuth()">
+          Créer mon compte
+        </button>
+
+        <button class="btn welcome-login" onclick="openWelcomeLogin()">
+          J’ai déjà un compte
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =======================================================
+     LOGIN
+======================================================= -->
+
+<div id="login" style="display:none">
+
+  <div class="card">
+
+    <img
+      src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
+      style="width:70px;height:70px;border-radius:17px;margin:0 auto 15px;display:block"
+    >
+
+    <h1 style="text-align:center;font-size:23px">famelack.</h1>
+
+    <p style="text-align:center;color:#8da6c1;font-size:12px;margin-top:5px">
+      Watch • Earn • Withdraw
+    </p>
+
+    <p class="login-description">
+      Accédez à votre espace personnel ou commencez la création
+      d'un nouveau compte.
+    </p>
+
+    <button class="btn" onclick="openAuth()" style="margin-top:20px">
+      Créer un compte / Se connecter
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     FLUX DE CREATION DE COMPTE
+======================================================= -->
+
+<div id="authFlow">
+
+  <div class="auth-card">
+
+    <div class="auth-progress">
+      <span id="prog1" class="active"></span>
+      <span id="prog2"></span>
+      <span id="prog3"></span>
+      <span id="prog4"></span>
+      <span id="prog5"></span>
+      <span id="prog6"></span>
+      <span id="prog7"></span>
+    </div>
+
+    <div id="authProcessing" class="auth-processing">
+
+      <div class="spinner"></div>
+
+      <b id="processingText">Vérification...</b>
+
+      <small style="color:#829bb7;margin-top:6px">
+        Traitement sécurisé en cours
+      </small>
+
+      <div class="processing-bar">
+        <div></div>
+      </div>
+
+    </div>
+
+
+    <!-- ETAPE 1 -->
+
+    <div class="auth-step active" id="auth1">
+
+      <img
+        class="auth-logo"
+        src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
+      >
+
+      <h1 class="auth-title">Bienvenue</h1>
+
+      <p class="auth-sub">
+        Nous allons configurer votre compte étape par étape.
+        Commencez avec votre adresse e-mail.
+      </p>
+
+      <div class="auth-note">
+        Votre adresse e-mail sert à identifier votre espace personnel
+        et à retrouver votre compte.
+      </div>
+
+      <label>Adresse e-mail</label>
+
+      <input
+        id="lgEmail"
+        type="email"
+        placeholder="votre@email.com"
+        autocomplete="email"
+      >
+
+      <button class="btn" onclick="authNext(1)">
+        Continuer
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 2 -->
+
+    <div class="auth-step" id="auth2">
+
+      <h1 class="auth-title">Nom d'utilisateur</h1>
+
+      <p class="auth-sub">
+        Choisissez le nom qui sera utilisé pour identifier
+        votre profil dans l'application.
+      </p>
+
+      <label>Nom d'utilisateur</label>
+
+      <input
+        id="lgName"
+        maxlength="30"
+        placeholder="Votre nom d'utilisateur"
+        autocomplete="username"
+      >
+
+      <div class="auth-note">
+        Utilisez un nom simple que vous pourrez reconnaître
+        facilement dans votre espace personnel.
+      </div>
+
+      <button class="btn" onclick="authNext(2)">
+        Continuer
+      </button>
+
+      <button class="auth-back" onclick="authBack(2)">
+        Retour
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 3 -->
+
+    <div class="auth-step" id="auth3">
+
+      <h1 class="auth-title">Votre profil</h1>
+
+      <p class="auth-sub">
+        Ajoutez le nom qui sera présenté dans votre tableau de bord.
+      </p>
+
+      <label>Nom affiché</label>
+
+      <input
+        id="lgDisplayName"
+        placeholder="Nom du profil"
+      >
+
+      <label>Type de compte</label>
+
+      <select id="lgType">
+        <option value="standard">Compte standard</option>
+        <option value="personal">Compte personnel</option>
+      </select>
+
+      <div class="auth-note">
+        Ces informations servent à personnaliser votre expérience
+        dans l'application.
+      </div>
+
+      <button class="btn" onclick="authNext(3)">
+        Continuer
+      </button>
+
+      <button class="auth-back" onclick="authBack(3)">
+        Retour
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 4 -->
+
+    <div class="auth-step" id="auth4">
+
+      <h1 class="auth-title">Votre pays</h1>
+
+      <p class="auth-sub">
+        Sélectionnez votre pays de résidence pour compléter
+        les informations de votre profil.
+      </p>
+
+      <input
+        class="country-search"
+        id="countrySearch"
+        placeholder="Rechercher un pays..."
+        oninput="filterCountries()"
+      >
+
+      <div class="country-list" id="countryList"></div>
+
+      <button class="btn" onclick="authNext(4)" style="margin-top:12px">
+        Continuer
+      </button>
+
+      <button class="auth-back" onclick="authBack(4)">
+        Retour
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 5 -->
+
+    <div class="auth-step" id="auth5">
+
+      <h1 class="auth-title">Configuration</h1>
+
+      <p class="auth-sub">
+        Votre espace est presque prêt. Vérifiez les dernières
+        informations de configuration.
+      </p>
+
+      <div class="auth-note">
+        Les informations présentées ci-dessous seront associées
+        à votre profil personnel.
+      </div>
+
+      <div class="summary-row">
+        <span>E-mail</span>
+        <b id="sumEmail2">—</b>
+      </div>
+
+      <div class="summary-row">
+        <span>Nom</span>
+        <b id="sumName2">—</b>
+      </div>
+
+      <div class="summary-row">
+        <span>Pays</span>
+        <b id="sumCountry2">—</b>
+      </div>
+
+      <button class="btn" onclick="authNext(5)" style="margin-top:14px">
+        Continuer
+      </button>
+
+      <button class="auth-back" onclick="authBack(5)">
+        Retour
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 6 -->
+
+    <div class="auth-step" id="auth6">
+
+      <h1 class="auth-title">Sécurité du compte</h1>
+
+      <p class="auth-sub">
+        Prenez un moment pour vérifier les informations
+        avant la création définitive de votre espace.
+      </p>
+
+      <div class="auth-note">
+        Vérifiez attentivement votre adresse e-mail,
+        votre nom d'utilisateur et votre pays.
+      </div>
+
+      <div class="checkline">
+        <input type="checkbox" id="securityCheck">
+        <span>
+          J'ai vérifié mes informations et je souhaite continuer.
+        </span>
+      </div>
+
+      <button class="btn" onclick="authNext(6)">
+        Vérifier les informations
+      </button>
+
+      <button class="auth-back" onclick="authBack(6)">
+        Retour
+      </button>
+
+    </div>
+
+
+    <!-- ETAPE 7 -->
+
+    <div class="auth-step" id="auth7">
+
+      <h1 class="auth-title">Confirmation finale</h1>
+
+      <p class="auth-sub">
+        Toutes les informations sont prêtes. Confirmez pour
+        créer votre espace famelack.
+      </p>
+
+      <div class="summary-row">
+        <span>E-mail</span>
+        <b id="sumEmail">—</b>
+      </div>
+
+      <div class="summary-row">
+        <span>Nom d'utilisateur</span>
+        <b id="sumName">—</b>
+      </div>
+
+      <div class="summary-row">
+        <span>Pays</span>
+        <b id="sumCountry">—</b>
+      </div>
+
+      <div class="checkline">
+        <input type="checkbox" id="confirmData">
+        <span>
+          Je confirme que les informations saisies sont correctes.
+        </span>
+      </div>
+
+      <button class="btn" onclick="finishAuth()">
+        Créer mon compte
+      </button>
+
+      <button class="auth-back" onclick="authBack(7)">
+        Modifier
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     APPLICATION
+======================================================= -->
+
+<div class="app" id="app" style="display:none">
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <img
+      src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
+      class="logo"
+    >
+
+    <div>
+      famelack.
+      <br>
+      <small style="color:#7894b4;font-size:8px">
+        Watch • Earn • Withdraw
+      </small>
+    </div>
+
+  </div>
+
+  <div style="text-align:right">
+
+    <div style="color:#8ca5c1;font-size:10px" id="topTime">
+      --:--:--
+    </div>
+
+    <div style="font-weight:bold" id="topMoney">
+      US$ 0.00
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =======================================================
+     ABA FRONTAL AMPLIADA
+======================================================= -->
+
+<section class="page active" id="home">
+
+  <div class="account-welcome">
+
+    <small>ESPACE PERSONNEL</small>
+
+    <h2>
+      Bonjour, <span id="frontName">Utilisateur</span>
+    </h2>
+
+    <p>
+      Bienvenue dans votre espace famelack. Consultez votre
+      activité, votre solde et les principales informations
+      de votre compte depuis cette page.
+    </p>
+
+  </div>
+
+
+  <div class="box balance">
+
+    <div class="label">Solde total</div>
+
+    <div class="big" id="balance">
+      US$ 0.00
+    </div>
+
+    <div class="green" id="today">
+      + US$ 0.00 aujourd'hui
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <small>Temps</small>
+        <b id="hTime">00h 00m</b>
+      </div>
+
+      <div class="stat">
+        <small>Sessions</small>
+        <b id="views">0</b>
+      </div>
+
+      <div class="stat">
+        <small>État</small>
+        <b class="green">Prêt</b>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="front-grid">
+
+    <div class="front-info">
+      <span>COMPTE</span>
+      <b id="frontAccountId">—</b>
+    </div>
+
+    <div class="front-info">
+      <span>PAYS</span>
+      <b id="frontCountry">—</b>
+    </div>
+
+    <div class="front-info">
+      <span>GAINS</span>
+      <b id="frontEarnings">US$ 0.00</b>
+    </div>
+
+    <div class="front-info">
+      <span>RETRAITS</span>
+      <b id="frontWithdrawals">US$ 0.00</b>
+    </div>
+
+  </div>
+
+
+  <div class="front-section">
+
+    <h3>Votre espace famelack</h3>
+
+    <p>
+      Cette page rassemble les informations essentielles de votre
+      compte. Utilisez les différentes sections de l'application
+      pour gérer votre portefeuille, consulter votre historique
+      et effectuer les opérations disponibles.
+    </p>
+
+  </div>
+
+
+  <div class="title">Guide de démarrage</div>
+
+  <div class="front-section">
+
+    <div class="front-guide">
+      <div class="front-guide-number">01</div>
+      <div>
+        <b>Configurez votre compte</b>
+        <span>Vérifiez que votre nom, votre e-mail et votre pays sont correctement enregistrés.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">02</div>
+      <div>
+        <b>Découvrez votre tableau de bord</b>
+        <span>Votre solde et vos principales statistiques sont affichés directement sur l'accueil.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">03</div>
+      <div>
+        <b>Commencez une session</b>
+        <span>Utilisez le bouton de démarrage lorsque vous souhaitez lancer une nouvelle session.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">04</div>
+      <div>
+        <b>Suivez votre activité</b>
+        <span>Le temps et les sessions enregistrées sont automatiquement présentés dans votre espace.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">05</div>
+      <div>
+        <b>Consultez vos gains</b>
+        <span>Votre valeur disponible est affichée dans le solde et dans l'historique des opérations.</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="title">Comment fonctionne le retrait ?</div>
+
+  <div class="front-section">
+
+    <div class="front-guide">
+      <div class="front-guide-number">01</div>
+      <div>
+        <b>Vérifiez votre solde</b>
+        <span>Consultez le montant actuellement disponible avant de commencer une demande.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">02</div>
+      <div>
+        <b>Configurez votre portefeuille</b>
+        <span>Ajoutez une méthode de retrait dans l'onglet Portefeuille.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">03</div>
+      <div>
+        <b>Choisissez le montant</b>
+        <span>Sélectionnez le montant souhaité selon votre solde disponible.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">04</div>
+      <div>
+        <b>Vérifiez les informations</b>
+        <span>Contrôlez la méthode et les informations affichées avant de confirmer.</span>
+      </div>
+    </div>
+
+    <div class="front-guide">
+      <div class="front-guide-number">05</div>
+      <div>
+        <b>Confirmez la demande</b>
+        <span>Après confirmation, l'opération apparaît dans votre historique.</span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="front-section">
+
+    <h3>Informations importantes</h3>
+
+    <p>
+      Consultez toujours les informations affichées dans votre compte
+      avant d'effectuer une opération. Les données de votre portefeuille
+      doivent être correctement renseignées et les informations sensibles
+      sont masquées après leur enregistrement.
+    </p>
+
+  </div>
+
+
+  <button class="btn start" onclick="start()">
+    COMMENCER MAINTENANT
+  </button>
+
+
+  <div class="title">Derniers gains</div>
+
+  <div class="box" id="recent">
+    <span style="color:#8198b4;font-size:11px">
+      Aucun gain enregistré.
+    </span>
+  </div>
+
+
+  <div class="blue-bottom">
+
+    <h3>Votre espace est prêt</h3>
+
+    <p>
+      Continuez à explorer famelack pour consulter votre activité,
+      gérer votre portefeuille et suivre les informations de votre compte.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     PORTEFEUILLE
+======================================================= -->
+
+<section class="page" id="wallet">
+
+  <div class="title">Portefeuille</div>
+
+  <div id="walletCardArea"></div>
+
+  <div class="box" id="walletFormBox">
+
+    <div style="font-size:13px;font-weight:bold;margin-bottom:14px">
+      Carte pour les retraits
+    </div>
+
+    <label>Nom du titulaire</label>
+    <input id="cName" placeholder="Nom du titulaire">
+
+    <label>Numéro de carte</label>
+    <input id="cNum" maxlength="19" inputmode="numeric" placeholder="0000 0000 0000 0000">
+
+    <label>Date d'expiration</label>
+    <input id="cExp" maxlength="5" placeholder="MM/AA">
+
+    <label>CVV</label>
+    <input id="cCvv" type="password" maxlength="4" inputmode="numeric" placeholder="•••">
+
+    <label>NIB (facultatif)</label>
+    <input id="cNib" placeholder="NIB">
+
+    <label>Pays</label>
+
+    <select id="cCountry">
+      <option>Brésil</option>
+      <option>Afrique du Sud</option>
+      <option>Portugal</option>
+      <option>Allemagne</option>
+      <option>États-Unis</option>
+    </select>
+
+    <button class="btn" onclick="saveWallet()">
+      Enregistrer la carte
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     RETRAIT
+======================================================= -->
+
+<section class="page" id="withdraw">
+
+  <div class="title">Retrait</div>
+
+  <div class="box balance">
+
+    <div class="label">Solde disponible</div>
+
+    <div class="big" id="wBal">
+      US$ 0.00
+    </div>
+
+    <div class="green">
+      Disponible pour retrait
+    </div>
+
+    <div style="display:flex;justify-content:space-between;background:#061a31;border:1px solid #1b4165;border-radius:11px;padding:10px;margin-top:10px;font-size:11px">
+      <span>Retrait minimum</span>
+      <b>US$ 1.00</b>
+    </div>
+
+    <div id="withdrawStep1" class="withdraw-step active">
+
+      <div class="label" style="margin-top:12px">
+        Montant du retrait
+      </div>
+
+      <div class="presets">
+        <button class="preset active" onclick="setAmt(1,this)">$1</button>
+        <button class="preset" onclick="setAmt(5,this)">$5</button>
+        <button class="preset" onclick="setAmt(10,this)">$10</button>
+        <button class="preset" onclick="setAmt(0,this)">Autre</button>
+      </div>
+
+      <input id="wAmt" type="number" value="1" min="1">
+
+      <div class="title" style="margin-top:18px">
+        Méthode de retrait
+      </div>
+
+      <div id="withdrawMethods"></div>
+
+      <button
+        class="btn"
+        id="withdrawContinue"
+        onclick="withdrawContinue()"
+        disabled
+      >
+        Continuer
+      </button>
+
+    </div>
+
+    <div id="withdrawStep2" class="withdraw-step">
+
+      <div class="title">
+        Confirmer les données
+      </div>
+
+      <div class="box" style="background:#061a31;margin:0">
+
+        <div class="summary-row">
+          <span>Montant</span>
+          <b id="wdConfirmAmount">US$ 0.00</b>
+        </div>
+
+        <div class="summary-row">
+          <span>Carte</span>
+          <b id="wdConfirmCard">—</b>
+        </div>
+
+        <div class="summary-row">
+          <span>Titulaire</span>
+          <b id="wdConfirmName">—</b>
+        </div>
+
+        <div class="summary-row">
+          <span>Expiration</span>
+          <b id="wdConfirmExp">—</b>
+        </div>
+
+      </div>
+
+      <button class="btn" onclick="confirmWithdraw()" style="margin-top:14px">
+        Confirmer le retrait
+      </button>
+
+      <button class="auth-back" onclick="backWithdraw()">
+        Modifier
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     HISTORIQUE
+======================================================= -->
+
+<section class="page" id="history">
+
+  <div class="title">Historique</div>
+
+  <div class="box" id="hList">
+    <span style="color:#8198b4;font-size:11px">
+      Votre historique apparaîtra ici.
+    </span>
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     COMPTE
+======================================================= -->
+
+<section class="page" id="account">
+
+  <div class="title">Mon compte</div>
+
+  <div class="box account-section">
+
+    <div style="font-size:14px;font-weight:bold;margin-bottom:4px">
+      Profil
+    </div>
+
+    <div style="color:#829bb7;font-size:10px;margin-bottom:8px">
+      Informations de votre compte
+    </div>
+
+    <div class="account-row">
+      <span>Nom d'utilisateur</span>
+      <b id="accName">—</b>
+    </div>
+
+    <div class="account-row">
+      <span>E-mail</span>
+      <b id="accEmail">—</b>
+    </div>
+
+    <div class="account-row">
+      <span>Pays</span>
+      <b id="accCountry">—</b>
+    </div>
+
+    <div class="account-row">
+      <span>ID du compte</span>
+      <b id="accId">—</b>
+    </div>
+
+    <div class="account-row">
+      <span>Date de création</span>
+      <b id="accCreated">—</b>
+    </div>
+
+    <div class="account-row">
+      <span>État du compte</span>
+      <b><span class="account-status">Actif</span></b>
+    </div>
+
+  </div>
+
+
+  <div class="box account-section">
+
+    <div style="font-size:14px;font-weight:bold;margin-bottom:4px">
+      Activité
+    </div>
+
+    <div class="account-row">
+      <span>Sessions</span>
+      <b id="accIds">0</b>
+    </div>
+
+    <div class="account-row">
+      <span>Gains</span>
+      <b id="accEarnings">US$ 0.00</b>
+    </div>
+
+    <div class="account-row">
+      <span>Solde</span>
+      <b id="accBalance">US$ 0.00</b>
+    </div>
+
+    <div class="account-row">
+      <span>Retraits</span>
+      <b id="accWithdrawals">US$ 0.00</b>
+    </div>
+
+    <div class="account-row">
+      <span>Carte enregistrée</span>
+      <b id="accCard">Aucune</b>
+    </div>
+
+  </div>
+
+
+  <div class="box account-section">
+
+    <div style="font-size:14px;font-weight:bold;margin-bottom:4px">
+      Sécurité
+    </div>
+
+    <div class="account-row">
+      <span>Accès</span>
+      <b>Protégé</b>
+    </div>
+
+    <div class="account-row">
+      <span>Données sensibles</span>
+      <b>Masquées</b>
+    </div>
+
+  </div>
+
+  <button class="btn" onclick="logout()" style="margin-bottom:9px">
+    Se déconnecter
+  </button>
+
+  <button class="btn btn-secondary" onclick="createNewAccount()" style="margin-bottom:9px">
+    Créer un nouveau compte
+  </button>
+
+  <button class="btn danger-btn" onclick="deleteAccount()">
+    Supprimer le compte
+  </button>
+
+</section>
+
+
+<nav class="nav">
+
+  <button class="active" onclick="openPage('home',this)">
+    Accueil
+  </button>
+
+  <button onclick="openPage('wallet',this)">
+    Portefeuille
+  </button>
+
+  <button onclick="openPage('withdraw',this)">
+    Retrait
+  </button>
+
+  <button onclick="openPage('account',this)">
+    Compte
+  </button>
+
+</nav>
+
+</div>
+
+
+<!-- =======================================================
+     SESSION
+======================================================= -->
+
+<div id="session">
+
+  <div style="position:absolute;top:0;left:0;right:0;height:60px;background:#04162c;border-bottom:1px solid #1b466e;display:flex;align-items:center;padding:0 12px;gap:10px">
+
+    <button
+      onclick="finish()"
+      style="width:40px;height:40px;border:0;border-radius:10px;background:#172f49;color:#fff;font-size:22px"
+    >
+      ×
+    </button>
+
+    <div style="flex:1">
+      <small style="color:#819bb8;font-size:8px">
+        SESSION ACTIVE
+      </small>
+
+      <div id="sTime" style="font-weight:bold">
+        00:00:00
+      </div>
+    </div>
+
+    <div style="text-align:right">
+      <small style="color:#819bb8;font-size:8px">
+        GAINS
+      </small>
+
+      <div id="sMoney" style="font-weight:bold;color:#25e58a">
+        US$ 0.00
+      </div>
+    </div>
+
+  </div>
+
+  <iframe
+    src="about:blank"
+    id="frame"
+    style="position:absolute;top:60px;left:0;width:100%;height:calc(100% - 60px);border:0"
+  ></iframe>
+
+  <div
+    id="pendingMsg"
+    style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#071d38;border:1px solid #315779;border-radius:12px;padding:16px 22px;display:none;text-align:center"
+  >
+    <b>En attente de l'approbation de l'administrateur...</b>
+    <br>
+    <small style="color:#8da6c1">
+      Le site sera activé dans quelques instants.
+    </small>
+  </div>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div id="notif">
+
+  <img src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png">
+
+  <span id="notifTxt"></span>
+
+</div>
+
+
+<!-- CONFIRMATION -->
+
+<div id="confirm">
+
+  <div class="confirm-card">
+
+    <div style="width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,.15);color:#f87171;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px">
+      ✓
+    </div>
+
+    <div style="font-size:18px;font-weight:bold;color:#fca5a5">
+      Retrait confirmé
+    </div>
+
+    <div style="color:#8da6c1;font-size:12px;margin-top:4px">
+      Vous avez retiré
+    </div>
+
+    <div id="confirmAmt" style="font-size:30px;font-weight:bold;color:#f87171;margin:12px 0">
+      US$ 0.00
+    </div>
+
+    <div style="color:#6f88a5;font-size:11px">
+      Traité dans un délai de 24 heures ouvrables.
+    </div>
+
+    <button
+      class="btn"
+      style="background:rgba(239,68,68,.2);border:1px solid rgba(239,68,68,.4);margin-top:16px"
+      onclick="closeConfirm()"
+    >
+      Fermer
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const CONFIG={
+  app_name:"famelack.",
+  tagline:"Watch • Earn • Withdraw",
+  language:"fr",
+  primary_color:"#ef4444",
+  background_color:"#0b1622",
+  app_icon:"https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png",
+  reward_amount:0.02,
+  reward_interval:30,
+  min_withdraw:1,
+  session_domain:"https://famelack.com",
+  countries:[
+    "Brésil",
+    "Afrique du Sud",
+    "Portugal",
+    "Allemagne",
+    "États-Unis",
+    "France",
+    "Espagne",
+    "Italie",
+    "Belgique",
+    "Pays-Bas",
+    "Royaume-Uni",
+    "Suisse",
+    "Canada",
+    "Australie"
+  ],
+  sites_pending:false,
+  nib_required:false,
+  notif_message:"Félicitations ! Vous venez de gagner {valor}."
+};
+
+
+let user=JSON.parse(localStorage.getItem("nv_user")||"null");
+
+let balance=Number(localStorage.getItem("nv_balance")||0);
+let seconds=Number(localStorage.getItem("nv_seconds")||0);
+let views=Number(localStorage.getItem("nv_views")||0);
+
+let running=false;
+let interval=null;
+
+let history=JSON.parse(localStorage.getItem("nv_history")||"[]");
+
+let savedCard=JSON.parse(localStorage.getItem("nv_card")||"null");
+
+let withdrawals=Number(localStorage.getItem("nv_withdrawals")||0);
+
+let authStep=1;
+let selectedCountry="";
+let selectedWithdrawCard=false;
+
+
+const money=v=>"US$ "+Number(v||0).toFixed(2);
+
+
+function saveState(){
+
+  localStorage.setItem("nv_balance",balance);
+  localStorage.setItem("nv_seconds",seconds);
+  localStorage.setItem("nv_views",views);
+  localStorage.setItem("nv_history",JSON.stringify(history));
+  localStorage.setItem("nv_withdrawals",withdrawals);
+
+}
+
+
+function openWelcomeAuth(){
+
+  document.getElementById("welcome").style.display="none";
+
+  document.getElementById("login").style.display="none";
+
+  openAuth();
+
+}
+
+
+function openWelcomeLogin(){
+
+  document.getElementById("welcome").style.display="none";
+
+  document.getElementById("login").style.display="flex";
+
+}
+
+
+function showApp(){
+
+  const hasUser=!!user;
+
+  document.getElementById("welcome").style.display=hasUser?"none":"block";
+
+  document.getElementById("login").style.display="none";
+
+  document.getElementById("app").style.display=hasUser?"block":"none";
+
+  if(hasUser){
+
+    update();
+    renderWallet();
+    renderWithdrawMethods();
+    renderAccount();
+
+  }
+
+}
+
+
+function openAuth(){
+
+  document.getElementById("login").style.display="none";
+
+  document.getElementById("welcome").style.display="none";
+
+  document.getElementById("authFlow").style.display="flex";
+
+  authStep=1;
+
+  showAuthStep(1);
+
+  document.getElementById("lgEmail").value=user?.email||"";
+  document.getElementById("lgName").value=user?.name||"";
+  document.getElementById("lgDisplayName").value=user?.displayName||"";
+
+  selectedCountry=user?.country||"";
+
+  renderCountries();
+
+}
+
+
+function showAuthStep(step){
+
+  authStep=step;
+
+  document
+    .querySelectorAll(".auth-step")
+    .forEach(x=>x.classList.remove("active"));
+
+  document
+    .getElementById("auth"+step)
+    .classList.add("active");
+
+
+  for(let i=1;i<=7;i++){
+
+    document
+      .getElementById("prog"+i)
+      .classList.toggle("active",i<=step);
+
+  }
+
+
+  const email=document.getElementById("lgEmail").value.trim();
+  const name=document.getElementById("lgName").value.trim();
+
+  const display=document.getElementById("lgDisplayName").value.trim();
+
+
+  if(step===5){
+
+    document.getElementById("sumEmail2").textContent=email||"—";
+    document.getElementById("sumName2").textContent=name||"—";
+    document.getElementById("sumCountry2").textContent=selectedCountry||"—";
+
+  }
+
+
+  if(step===7){
+
+    document.getElementById("sumEmail").textContent=email||"—";
+    document.getElementById("sumName").textContent=name||"—";
+    document.getElementById("sumCountry").textContent=selectedCountry||"—";
+
+  }
+
+}
+
+
+function processAuth(callback,text){
+
+  const p=document.getElementById("authProcessing");
+
+  document.getElementById("processingText").textContent=text;
+
+  p.classList.add("show");
+
+  setTimeout(()=>{
+
+    p.classList.remove("show");
+
+    callback();
+
+  },1500);
+
+}
+
+
+function authNext(step){
+
+  if(step===1){
+
+    const email=document.getElementById("lgEmail").value.trim();
+
+    const input=document.getElementById("lgEmail");
+
+    if(!email||!input.checkValidity()){
+
+      input.focus();
+
+      return;
+
+    }
+
+    processAuth(
+      ()=>showAuthStep(2),
+      "Vérification de l'adresse e-mail..."
+    );
+
+    return;
+
+  }
+
+
+  if(step===2){
+
+    const name=document.getElementById("lgName").value.trim();
+
+    if(!name){
+
+      document.getElementById("lgName").focus();
+
+      return;
+
+    }
+
+    processAuth(
+      ()=>showAuthStep(3),
+      "Enregistrement du nom d'utilisateur..."
+    );
+
+    return;
+
+  }
+
+
+  if(step===3){
+
+    const display=document.getElementById("lgDisplayName").value.trim();
+
+    if(!display){
+
+      document.getElementById("lgDisplayName").focus();
+
+      return;
+
+    }
+
+    processAuth(
+      ()=>showAuthStep(4),
+      "Configuration du profil..."
+    );
+
+    return;
+
+  }
+
+
+  if(step===4){
+
+    if(!selectedCountry){
+
+      document.getElementById("countrySearch").focus();
+
+      return;
+
+    }
+
+    processAuth(
+      ()=>showAuthStep(5),
+      "Validation du pays..."
+    );
+
+    return;
+
+  }
+
+
+  if(step===5){
+
+    processAuth(
+      ()=>showAuthStep(6),
+      "Préparation de la sécurité du compte..."
+    );
+
+    return;
+
+  }
+
+
+  if(step===6){
+
+    if(!document.getElementById("securityCheck").checked){
+
+      alert("Veuillez vérifier les informations avant de continuer.");
+
+      return;
+
+    }
+
+    processAuth(
+      ()=>showAuthStep(7),
+      "Vérification finale..."
+    );
+
+  }
+
+}
+
+
+function authBack(step){
+
+  if(step>1){
+
+    showAuthStep(step-1);
+
+  }
+
+}
+
+
+function renderCountries(){
+
+  const list=document.getElementById("countryList");
+
+  list.innerHTML=CONFIG.countries.map(c=>
+
+    '<div class="country-option '+
+
+    (c===selectedCountry?"selected":"")+
+
+    '" onclick="selectCountry(\''+
+
+    c.replace(/'/g,"\\'")+
+
+    '\')">'+
+
+    escapeHtml(c)+
+
+    '</div>'
+
+  ).join("");
+
+}
+
+
+function filterCountries(){
+
+  const q=document
+    .getElementById("countrySearch")
+    .value
+    .toLowerCase()
+    .trim();
+
+  document
+    .querySelectorAll(".country-option")
+    .forEach(el=>{
+
+      el.style.display=
+        el.textContent.toLowerCase().includes(q)
+        ?"block"
+        :"none";
+
+    });
+
+}
+
+
+function selectCountry(country){
+
+  selectedCountry=country;
+
+  renderCountries();
+
+}
+
+
+function finishAuth(){
+
+  const check=document.getElementById("confirmData");
+
+  if(!check.checked){
+
+    alert("Veuillez confirmer que vos informations sont correctes.");
+
+    return;
+
+  }
+
+
+  processAuth(()=>{
+
+    const old=user;
+
+
+    user={
+
+      email:document.getElementById("lgEmail").value.trim(),
+
+      name:document.getElementById("lgName").value.trim(),
+
+      displayName:document.getElementById("lgDisplayName").value.trim(),
+
+      type:document.getElementById("lgType").value,
+
+      country:selectedCountry,
+
+      id:old?.id||
+        ("FM-"+Math.random()
+        .toString(36)
+        .substring(2,8)
+        .toUpperCase()),
+
+      createdAt:old?.createdAt||
+        new Date().toISOString()
+
+    };
+
+
+    localStorage.setItem(
+      "nv_user",
+      JSON.stringify(user)
+    );
+
+
+    document.getElementById("authFlow").style.display="none";
+
+    document.getElementById("login").style.display="none";
+
+    document.getElementById("welcome").style.display="none";
+
+    document.getElementById("app").style.display="block";
+
+
+    update();
+    renderWallet();
+    renderWithdrawMethods();
+    renderAccount();
+
+
+    notify("Bienvenue sur famelack.");
+
+  },"Création sécurisée de votre compte...");
+
+}
+
+
+function notify(msg){
+
+  const n=document.getElementById("notif");
+
+  document.getElementById("notifTxt").textContent=msg;
+
+  n.classList.add("show");
+
+  setTimeout(
+    ()=>n.classList.remove("show"),
+    4500
+  );
+
+}
+
+
+function update(){
+
+  document.getElementById("balance").textContent=money(balance);
+
+  document.getElementById("topMoney").textContent=money(balance);
+
+  document.getElementById("wBal").textContent=money(balance);
+
+  document.getElementById("today").textContent=
+    "+ "+money(balance)+" aujourd'hui";
+
+
+  const h=Math.floor(seconds/3600);
+
+  const m=Math.floor((seconds%3600)/60);
+
+  const sec=seconds%60;
+
+
+  const ts=
+    String(h).padStart(2,"0")+":"+
+    String(m).padStart(2,"0")+":"+
+    String(sec).padStart(2,"0");
+
+
+  document.getElementById("topTime").textContent=ts;
+
+  document.getElementById("sTime").textContent=ts;
+
+  document.getElementById("sMoney").textContent=money(balance);
+
+  document.getElementById("hTime").textContent=
+    String(h).padStart(2,"0")+
+    "h "+
+    String(m).padStart(2,"0")+
+    "m";
+
+  document.getElementById("views").textContent=views;
+
+
+  if(user){
+
+    const earnings=history
+      .filter(x=>x.type!=="withdrawal")
+      .reduce(
+        (s,x)=>s+Number(x.value||0),
+        0
+      );
+
+
+    document.getElementById("frontName").textContent=
+      user.displayName||
+      user.name||
+      "Utilisateur";
+
+
+    document.getElementById("frontAccountId").textContent=
+      user.id||"—";
+
+
+    document.getElementById("frontCountry").textContent=
+      user.country||"—";
+
+
+    document.getElementById("frontEarnings").textContent=
+      money(earnings);
+
+
+    document.getElementById("frontWithdrawals").textContent=
+      money(withdrawals);
+
+  }
+
+
+  render();
+  renderAccount();
+
+}
+
+
+function reallyStart(){
+
+  document.getElementById("frame").src=
+    CONFIG.session_domain;
+
+  running=true;
+
+
+  interval=setInterval(()=>{
+
+    seconds++;
+
+
+    if(seconds%CONFIG.reward_interval===0){
+
+      balance+=CONFIG.reward_amount;
+
+      views++;
+
+
+      history.push({
+
+        value:CONFIG.reward_amount,
+
+        duration:CONFIG.reward_interval,
+
+        time:new Date().toLocaleTimeString("fr-FR")
+
+      });
+
+
+      saveState();
+
+
+      notify(
+        CONFIG.notif_message
+          .replace(
+            "{valor}",
+            money(CONFIG.reward_amount)
+          )
+      );
+
+    }
+
+
+    update();
+
+  },1000);
+
+
+  update();
+
+}
+
+
+function start(){
+
+  document
+    .getElementById("session")
+    .classList.add("active");
+
+
+  document.getElementById("pendingMsg").style.display=
+    CONFIG.sites_pending
+    ?"block"
+    :"none";
+
+
+  if(running)return;
+
+
+  if(CONFIG.sites_pending){
+
+    setTimeout(()=>{
+
+      document.getElementById("pendingMsg").style.display="none";
+
+      reallyStart();
+
+    },2000);
+
+  }else{
+
+    reallyStart();
+
+  }
+
+}
+
+
+function finish(){
+
+  running=false;
+
+  clearInterval(interval);
+
+  interval=null;
+
+  saveState();
+
+  document
+    .getElementById("session")
+    .classList.remove("active");
+
+  document.getElementById("frame").src="about:blank";
+
+  update();
+
+}
+
+
+function openPage(p,b){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(x=>x.classList.remove("active"));
+
+
+  document
+    .getElementById(p)
+    .classList.add("active");
+
+
+  document
+    .querySelectorAll(".nav button")
+    .forEach(x=>x.classList.remove("active"));
+
+
+  b.classList.add("active");
+
+
+  if(p==="wallet")renderWallet();
+
+  if(p==="withdraw")renderWithdrawMethods();
+
+  if(p==="account")renderAccount();
+
+
+  window.scrollTo(0,0);
+
+}
+
+
+function formatCardNumber(v){
+
+  return v
+    .replace(/\D/g,"")
+    .slice(0,16)
+    .replace(/(.{4})/g,"$1 ")
+    .trim();
+
+}
+
+
+document
+  .getElementById("cNum")
+  .addEventListener("input",function(){
+
+    this.value=formatCardNumber(this.value);
+
+  });
+
+
+document
+  .getElementById("cExp")
+  .addEventListener("input",function(){
+
+    let v=this.value
+      .replace(/\D/g,"")
+      .slice(0,4);
+
+    if(v.length>2)
+      v=v.slice(0,2)+"/"+v.slice(2);
+
+    this.value=v;
+
+  });
+
+
+function saveWallet(){
+
+  const name=document
+    .getElementById("cName")
+    .value.trim();
+
+  const num=document
+    .getElementById("cNum")
+    .value
+    .replace(/\s/g,"");
+
+  const exp=document
+    .getElementById("cExp")
+    .value.trim();
+
+  const cvv=document
+    .getElementById("cCvv")
+    .value.trim();
+
+  const nib=document
+    .getElementById("cNib")
+    .value.trim();
+
+  const country=document
+    .getElementById("cCountry")
+    .value;
+
+
+  if(!name||num.length<12||!exp||cvv.length<3){
+
+    alert(
+      "Veuillez remplir correctement les données de la carte."
+    );
+
+    return;
+
+  }
+
+
+  if(CONFIG.nib_required&&!nib){
+
+    alert("Veuillez renseigner le NIB.");
+
+    return;
+
+  }
+
+
+  savedCard={
+
+    last4:num.slice(-4),
+
+    name:name,
+
+    exp:exp,
+
+    country:country,
+
+    nib:nib
+
+  };
+
+
+  localStorage.setItem(
+    "nv_card",
+    JSON.stringify(savedCard)
+  );
+
+
+  document.getElementById("cCvv").value="";
+  document.getElementById("cNum").value="";
+  document.getElementById("cExp").value="";
+  document.getElementById("cName").value="";
+  document.getElementById("cNib").value="";
+
+
+  renderWallet();
+  renderWithdrawMethods();
+  renderAccount();
+
+
+  notify("Carte enregistrée avec succès.");
+
+}
+
+
+function renderWallet(){
+
+  const area=document.getElementById("walletCardArea");
+
+  const form=document.getElementById("walletFormBox");
+
+
+  if(!savedCard){
+
+    area.innerHTML=
+
+      '<div class="box">'+
+
+      '<div style="font-size:13px;font-weight:bold;margin-bottom:5px">'+
+      'Carte pour les retraits'+
+      '</div>'+
+
+      '<div style="font-size:10px;color:#829bb7;line-height:1.5">'+
+      'Ajoutez une carte pour pouvoir effectuer des retraits. '+
+      'Les données sensibles resteront masquées après l’enregistrement.'+
+      '</div>'+
+
+      '</div>';
+
+
+    form.style.display="block";
+
+    return;
+
+  }
+
+
+  area.innerHTML=
+
+    '<div class="card-visual">'+
+
+      '<div class="card-chip"></div>'+
+
+      '<div class="card-number">'+
+      '•••• •••• •••• '+
+      savedCard.last4+
+      '</div>'+
+
+      '<div class="card-meta">'+
+
+        '<div>'+
+          '<small>TITULAIRE</small>'+
+          escapeHtml(savedCard.name).toUpperCase()+
+        '</div>'+
+
+        '<div>'+
+          '<small>VALIDITÉ</small>'+
+          escapeHtml(savedCard.exp)+
+        '</div>'+
+
+      '</div>'+
+
+    '</div>'+
+
+    '<div class="saved-card">'+
+
+      '<div style="font-size:12px;font-weight:bold">'+
+      'Carte enregistrée'+
+      '</div>'+
+
+      '<div style="color:#25e58a;font-size:9px;margin-top:4px">'+
+      'Données sensibles protégées'+
+      '</div>'+
+
+      '<div style="color:#829bb7;font-size:10px;margin-top:8px">'+
+      '•••• •••• •••• '+
+      savedCard.last4+
+      '</div>'+
+
+      '<div class="card-actions">'+
+
+        '<button class="btn-secondary" onclick="editWallet()">'+
+        'Modifier'+
+        '</button>'+
+
+        '<button class="btn-secondary" onclick="replaceWallet()">'+
+        'Remplacer'+
+        '</button>'+
+
+      '</div>'+
+
+    '</div>';
+
+
+  form.style.display="none";
+
+}
+
+
+function editWallet(){
+
+  document.getElementById("walletFormBox").style.display="block";
+
+  document.getElementById("cName").value=
+    savedCard.name||"";
+
+  document.getElementById("cExp").value=
+    savedCard.exp||"";
+
+  document.getElementById("cCountry").value=
+    savedCard.country||"Brésil";
+
+  document.getElementById("cNib").value=
+    savedCard.nib||"";
+
+  document.getElementById("cNum").focus();
+
+}
+
+
+function replaceWallet(){
+
+  if(confirm("Remplacer la carte enregistrée ?")){
+
+    savedCard=null;
+
+    localStorage.removeItem("nv_card");
+
+    renderWallet();
+    renderWithdrawMethods();
+    renderAccount();
+
+  }
+
+}
+
+
+function renderWithdrawMethods(){
+
+  const area=document.getElementById("withdrawMethods");
+
+
+  if(!savedCard){
+
+    area.innerHTML=
+
+      '<div class="box" style="text-align:center;background:#061a31">'+
+
+      '<div style="font-size:13px;font-weight:bold">'+
+      'Aucune carte disponible'+
+      '</div>'+
+
+      '<div style="font-size:10px;color:#829bb7;line-height:1.5;margin:6px 0 13px">'+
+      'Ajoutez une carte dans le Portefeuille pour pouvoir effectuer un retrait.'+
+      '</div>'+
+
+      '<button class="btn" onclick="openWalletFromWithdraw()">'+
+      'Ajouter une carte'+
+      '</button>'+
+
+      '</div>';
+
+
+    document.getElementById("withdrawContinue").disabled=true;
+
+    selectedWithdrawCard=false;
+
+    return;
+
+  }
+
+
+  area.innerHTML=
+
+    '<div class="withdraw-method '+
+
+    (selectedWithdrawCard?"selected":"")+
+
+    '" onclick="selectWithdrawCard()">'+
+
+      '<div class="withdraw-method-head">'+
+
+        '<div style="font-size:10px;color:#829bb7">'+
+        'Carte enregistrée'+
+        '</div>'+
+
+        '<div class="withdraw-check"></div>'+
+
+      '</div>'+
+
+      '<div class="withdraw-card-mini">'+
+      '•••• '+savedCard.last4+
+      '</div>'+
+
+      '<div style="display:flex;justify-content:space-between;color:#829bb7;font-size:9px">'+
+
+        '<span>'+escapeHtml(savedCard.name)+'</span>'+
+
+        '<span>'+escapeHtml(savedCard.exp)+'</span>'+
+
+      '</div>'+
+
+      '<div style="font-size:9px;color:#829bb7;margin-top:9px">'+
+      'Sélectionner cette carte'+
+      '</div>'+
+
+    '</div>';
+
+
+  document.getElementById("withdrawContinue").disabled=
+    !selectedWithdrawCard;
+
+}
+
+
+function selectWithdrawCard(){
+
+  selectedWithdrawCard=true;
+
+  renderWithdrawMethods();
+
+}
+
+
+function openWalletFromWithdraw(){
+
+  const buttons=document.querySelectorAll(".nav button");
+
+  openPage("wallet",buttons[1]);
+
+}
+
+
+function withdrawContinue(){
+
+  const a=Number(
+    document.getElementById("wAmt").value
+  );
+
+
+  if(!selectedWithdrawCard){
+
+    alert("Sélectionnez une carte pour continuer.");
+
+    return;
+
+  }
+
+
+  if(a<CONFIG.min_withdraw){
+
+    alert(
+      "Retrait minimum : "+
+      money(CONFIG.min_withdraw)
+    );
+
+    return;
+
+  }
+
+
+  if(a>balance){
+
+    alert("Solde insuffisant.");
+
+    return;
+
+  }
+
+
+  document.getElementById("wdConfirmAmount").textContent=
+    money(a);
+
+  document.getElementById("wdConfirmCard").textContent=
+    "•••• "+savedCard.last4;
+
+  document.getElementById("wdConfirmName").textContent=
+    savedCard.name;
+
+  document.getElementById("wdConfirmExp").textContent=
+    savedCard.exp;
+
+
+  document
+    .getElementById("withdrawStep1")
+    .classList.remove("active");
+
+  document
+    .getElementById("withdrawStep2")
+    .classList.add("active");
+
+}
+
+
+function backWithdraw(){
+
+  document
+    .getElementById("withdrawStep2")
+    .classList.remove("active");
+
+  document
+    .getElementById("withdrawStep1")
+    .classList.add("active");
+
+}
+
+
+function confirmWithdraw(){
+
+  const a=Number(
+    document.getElementById("wAmt").value
+  );
+
+
+  if(
+    a<CONFIG.min_withdraw||
+    a>balance
+  ){
+
+    backWithdraw();
+
+    return;
+
+  }
+
+
+  balance-=a;
+
+  withdrawals+=a;
+
+
+  history.push({
+
+    value:-a,
+
+    duration:0,
+
+    time:new Date().toLocaleTimeString("fr-FR"),
+
+    type:"withdrawal"
+
+  });
+
+
+  saveState();
+
+
+  document.getElementById("confirmAmt").textContent=
+    money(a);
+
+  document
+    .getElementById("confirm")
+    .classList.add("show");
+
+
+  document
+    .getElementById("withdrawStep2")
+    .classList.remove("active");
+
+  document
+    .getElementById("withdrawStep1")
+    .classList.add("active");
+
+
+  update();
+
+}
+
+
+function setAmt(v,b){
+
+  document
+    .querySelectorAll(".preset")
+    .forEach(x=>x.classList.remove("active"));
+
+  b.classList.add("active");
+
+
+  if(v>0){
+
+    document.getElementById("wAmt").value=v;
+
+  }else{
+
+    document.getElementById("wAmt").focus();
+
+  }
+
+}
+
+
+function closeConfirm(){
+
+  document
+    .getElementById("confirm")
+    .classList.remove("show");
+
+  renderWithdrawMethods();
+
+  openPage(
+    "history",
+    document.querySelectorAll(".nav button")[3]
+  );
+
+}
+
+
+function render(){
+
+  const r=document.getElementById("recent");
+
+  const l=document.getElementById("hList");
+
+
+  if(!history.length){
+
+    r.innerHTML=
+      '<span style="color:#8198b4;font-size:11px">'+
+      'Aucun gain enregistré.'+
+      '</span>';
+
+
+    l.innerHTML=
+      '<span style="color:#8198b4;font-size:11px">'+
+      'Votre historique apparaîtra ici.'+
+      '</span>';
+
+    return;
+
+  }
+
+
+  const html=history
+    .slice()
+    .reverse()
+    .map(i=>{
+
+      if(i.type==="withdrawal"){
+
+        return
+
+          '<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #17334f;font-size:11px">'+
+
+          '<span>'+
+          'Retrait<br>'+
+          '<small style="color:#7189a5;font-size:9px">'+
+          i.time+
+          '</small>'+
+          '</span>'+
+
+          '<b style="color:#f87171">'+
+          '-'+money(Math.abs(i.value))+
+          '</b>'+
+
+          '</div>';
+
+      }
+
+
+      return
+
+        '<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #17334f;font-size:11px">'+
+
+        '<span>'+
+        'Session de '+i.duration+'s<br>'+
+        '<small style="color:#7189a5;font-size:9px">'+
+        i.time+
+        '</small>'+
+        '</span>'+
+
+        '<b class="green">'+
+        '+'+money(i.value)+
+        '</b>'+
+
+        '</div>';
+
+    })
+    .join("");
+
+
+  r.innerHTML=html;
+
+  l.innerHTML=html;
+
+}
+
+
+function renderAccount(){
+
+  if(!user)return;
+
+
+  document.getElementById("accName").textContent=
+    user.name||"—";
+
+
+  document.getElementById("accEmail").textContent=
+    user.email||"—";
+
+
+  document.getElementById("accCountry").textContent=
+    user.country||"—";
+
+
+  document.getElementById("accId").textContent=
+    user.id||"—";
+
+
+  if(user.createdAt){
+
+    document.getElementById("accCreated").textContent=
+      new Date(user.createdAt)
+        .toLocaleDateString("fr-FR");
+
+  }
+
+
+  document.getElementById("accIds").textContent=
+    views;
+
+
+  document.getElementById("accEarnings").textContent=
+    money(
+      history
+        .filter(x=>x.type!=="withdrawal")
+        .reduce(
+          (s,x)=>s+Number(x.value||0),
+          0
+        )
+    );
+
+
+  document.getElementById("accBalance").textContent=
+    money(balance);
+
+
+  document.getElementById("accWithdrawals").textContent=
+    money(withdrawals);
+
+
+  document.getElementById("accCard").textContent=
+    savedCard
+    ?"•••• "+savedCard.last4
+    :"Aucune";
+
+}
+
+
+function logout(){
+
+  if(!confirm("Voulez-vous vraiment vous déconnecter ?"))
+    return;
+
+
+  user=null;
+
+  localStorage.removeItem("nv_user");
+
+
+  document.getElementById("app").style.display="none";
+
+  document.getElementById("login").style.display="flex";
+
+}
+
+
+function createNewAccount(){
+
+  if(!confirm("Créer un nouveau compte ?"))
+    return;
+
+
+  user=null;
+
+  localStorage.removeItem("nv_user");
+
+
+  document.getElementById("app").style.display="none";
+
+  document.getElementById("login").style.display="none";
+
+  document.getElementById("welcome").style.display="block";
+
+  window.scrollTo(0,0);
+
+}
+
+
+function deleteAccount(){
+
+  if(!confirm(
+    "Supprimer définitivement ce compte et ses données locales ?"
+  ))
+    return;
+
+
+  user=null;
+  savedCard=null;
+  balance=0;
+  seconds=0;
+  views=0;
+  withdrawals=0;
+  history=[];
+
+
+  localStorage.removeItem("nv_user");
+  localStorage.removeItem("nv_card");
+  localStorage.removeItem("nv_balance");
+  localStorage.removeItem("nv_seconds");
+  localStorage.removeItem("nv_views");
+  localStorage.removeItem("nv_history");
+  localStorage.removeItem("nv_withdrawals");
+
+
+  document.getElementById("app").style.display="none";
+
+  document.getElementById("login").style.display="none";
+
+  document.getElementById("welcome").style.display="block";
+
+  window.scrollTo(0,0);
+
+}
+
+
+function escapeHtml(str){
+
+  return String(str||"")
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+showApp();
+
+</script>
+
+</body>
+</html>
