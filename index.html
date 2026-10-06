@@ -22,7 +22,7 @@ body{
   min-height:100vh;
 }
 
-button,input,select{font:inherit}
+button,input,select,textarea{font:inherit}
 
 .app{
   max-width:480px;
@@ -187,11 +187,6 @@ label{
 }
 
 .nav button.active{color:var(--primary)}
-
-
-/* =========================================================
-   NOVA TELA DE BOAS-VINDAS
-========================================================= */
 
 #welcome{
   position:fixed;
@@ -369,11 +364,6 @@ label{
   border:1px solid rgba(255,255,255,.18);
 }
 
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
 #login{
   position:fixed;
   inset:0;
@@ -402,11 +392,6 @@ label{
   text-align:center;
   margin-top:9px;
 }
-
-
-/* =========================================================
-   CADASTRO
-========================================================= */
 
 #authFlow{
   position:fixed;
@@ -459,28 +444,6 @@ label{
 @keyframes authIn{
   from{opacity:0;transform:translateX(12px)}
   to{opacity:1;transform:translateX(0)}
-}
-
-.auth-logo{
-  width:68px;
-  height:68px;
-  border-radius:17px;
-  display:block;
-  margin:4px auto 17px;
-}
-
-.auth-title{
-  text-align:center;
-  font-size:23px;
-  margin-bottom:8px;
-}
-
-.auth-sub{
-  text-align:center;
-  color:#829bb7;
-  font-size:11px;
-  line-height:1.6;
-  margin-bottom:22px;
 }
 
 .auth-processing{
@@ -617,11 +580,6 @@ label{
   margin:0;
 }
 
-
-/* =========================================================
-   INFORMAÇÃO EXTRA DA ABA FRONTAL
-========================================================= */
-
 .account-welcome{
   background:linear-gradient(145deg,#071d38,#092c51);
   border:1px solid rgba(43,127,255,.22);
@@ -743,11 +701,6 @@ label{
   line-height:1.6;
 }
 
-
-/* =========================================================
-   RESTANTE DA INTERFACE
-========================================================= */
-
 .presets{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -798,6 +751,7 @@ label{
 .card-meta{
   display:flex;
   justify-content:space-between;
+  gap:15px;
   font-size:10px;
 }
 
@@ -806,6 +760,11 @@ label{
   color:#7189a5;
   font-size:7px;
   margin-bottom:3px;
+}
+
+.card-meta>div{
+  max-width:50%;
+  word-break:break-word;
 }
 
 .saved-card{
@@ -973,22 +932,57 @@ label{
   padding:24px;
   text-align:center;
 }
+
+.payment-link-box{
+  background:#061a31;
+  border:1px solid #1b4165;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:14px;
+}
+
+.payment-link-box p{
+  color:#829bb7;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.payment-error{
+  display:none;
+  color:#ff8d95;
+  background:rgba(239,68,68,.08);
+  border:1px solid rgba(239,68,68,.25);
+  border-radius:10px;
+  padding:10px;
+  font-size:10px;
+  line-height:1.5;
+  margin-bottom:10px;
+}
+
+.payment-error.show{
+  display:block;
+}
+
+.card-link-info{
+  margin-top:12px;
+  border-top:1px solid #17334f;
+  padding-top:10px;
+}
+
+.card-link-info .summary-row{
+  padding:8px 0;
+  font-size:10px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- =======================================================
-     NOVA TELA DE BOAS-VINDAS
-======================================================= -->
-
 <div id="welcome">
   <div class="welcome-inner">
 
-    <img
-      class="welcome-logo"
-      src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
-    >
+    <img class="welcome-logo"
+      src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png">
 
     <div class="welcome-brand">famelack.</div>
     <div class="welcome-sub">Watch • Earn • Withdraw</div>
@@ -1104,7 +1098,7 @@ label{
       <div class="step-number">09</div>
       <div>
         <b>Consulter votre portefeuille</b>
-        <p>Ajoutez et gérez les informations nécessaires lorsque vous souhaitez utiliser la fonction de retrait.</p>
+        <p>Adicione e gere as informações necessárias quando quiser utilizar a função de retrait.</p>
       </div>
     </div>
 
@@ -1138,10 +1132,6 @@ label{
 </div>
 
 
-<!-- =======================================================
-     LOGIN
-======================================================= -->
-
 <div id="login" style="display:none">
 
   <div class="card">
@@ -1170,10 +1160,6 @@ label{
 
 </div>
 
-
-<!-- =======================================================
-     FLUX DE CREATION DE COMPTE
-======================================================= -->
 
 <div id="authFlow">
 
@@ -1206,14 +1192,10 @@ label{
     </div>
 
 
-    <!-- ETAPE 1 -->
-
     <div class="auth-step active" id="auth1">
 
-      <img
-        class="auth-logo"
-        src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
-      >
+      <img class="auth-logo"
+        src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png">
 
       <h1 class="auth-title">Bienvenue</h1>
 
@@ -1229,12 +1211,9 @@ label{
 
       <label>Adresse e-mail</label>
 
-      <input
-        id="lgEmail"
-        type="email"
+      <input id="lgEmail" type="email"
         placeholder="votre@email.com"
-        autocomplete="email"
-      >
+        autocomplete="email">
 
       <button class="btn" onclick="authNext(1)">
         Continuer
@@ -1242,8 +1221,6 @@ label{
 
     </div>
 
-
-    <!-- ETAPE 2 -->
 
     <div class="auth-step" id="auth2">
 
@@ -1256,12 +1233,10 @@ label{
 
       <label>Nom d'utilisateur</label>
 
-      <input
-        id="lgName"
+      <input id="lgName"
         maxlength="30"
         placeholder="Votre nom d'utilisateur"
-        autocomplete="username"
-      >
+        autocomplete="username">
 
       <div class="auth-note">
         Utilisez un nom simple que vous pourrez reconnaître
@@ -1279,8 +1254,6 @@ label{
     </div>
 
 
-    <!-- ETAPE 3 -->
-
     <div class="auth-step" id="auth3">
 
       <h1 class="auth-title">Votre profil</h1>
@@ -1291,10 +1264,8 @@ label{
 
       <label>Nom affiché</label>
 
-      <input
-        id="lgDisplayName"
-        placeholder="Nom du profil"
-      >
+      <input id="lgDisplayName"
+        placeholder="Nom du profil">
 
       <label>Type de compte</label>
 
@@ -1319,8 +1290,6 @@ label{
     </div>
 
 
-    <!-- ETAPE 4 -->
-
     <div class="auth-step" id="auth4">
 
       <h1 class="auth-title">Votre pays</h1>
@@ -1330,12 +1299,10 @@ label{
         les informations de votre profil.
       </p>
 
-      <input
-        class="country-search"
+      <input class="country-search"
         id="countrySearch"
         placeholder="Rechercher un pays..."
-        oninput="filterCountries()"
-      >
+        oninput="filterCountries()">
 
       <div class="country-list" id="countryList"></div>
 
@@ -1349,8 +1316,6 @@ label{
 
     </div>
 
-
-    <!-- ETAPE 5 -->
 
     <div class="auth-step" id="auth5">
 
@@ -1392,8 +1357,6 @@ label{
     </div>
 
 
-    <!-- ETAPE 6 -->
-
     <div class="auth-step" id="auth6">
 
       <h1 class="auth-title">Sécurité du compte</h1>
@@ -1425,8 +1388,6 @@ label{
 
     </div>
 
-
-    <!-- ETAPE 7 -->
 
     <div class="auth-step" id="auth7">
 
@@ -1474,10 +1435,6 @@ label{
 </div>
 
 
-<!-- =======================================================
-     APPLICATION
-======================================================= -->
-
 <div class="app" id="app" style="display:none">
 
 <header class="topbar">
@@ -1486,8 +1443,7 @@ label{
 
     <img
       src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png"
-      class="logo"
-    >
+      class="logo">
 
     <div>
       famelack.
@@ -1513,10 +1469,6 @@ label{
 
 </header>
 
-
-<!-- =======================================================
-     ABA FRONTAL AMPLIADA
-======================================================= -->
 
 <section class="page active" id="home">
 
@@ -1746,10 +1698,6 @@ label{
 </section>
 
 
-<!-- =======================================================
-     PORTEFEUILLE
-======================================================= -->
-
 <section class="page" id="wallet">
 
   <div class="title">Portefeuille</div>
@@ -1762,43 +1710,47 @@ label{
       Carte pour les retraits
     </div>
 
-    <label>Nom du titulaire</label>
-    <input id="cName" placeholder="Nom du titulaire">
+    <div class="payment-link-box">
 
-    <label>Numéro de carte</label>
-    <input id="cNum" maxlength="19" inputmode="numeric" placeholder="0000 0000 0000 0000">
+      <div style="font-size:12px;font-weight:bold;margin-bottom:6px">
+        Ajouter avec un lien de paiement
+      </div>
 
-    <label>Date d'expiration</label>
-    <input id="cExp" maxlength="5" placeholder="MM/AA">
+      <p>
+        Collez ici le lien de paiement contenant les informations
+        nécessaires à l'affichage de votre carte.
+      </p>
 
-    <label>CVV</label>
-    <input id="cCvv" type="password" maxlength="4" inputmode="numeric" placeholder="•••">
+    </div>
 
-    <label>NIB (facultatif)</label>
-    <input id="cNib" placeholder="NIB">
+    <label>Lien de paiement</label>
 
-    <label>Pays</label>
+    <input
+      id="paymentLink"
+      type="url"
+      placeholder="https://..."
+      autocomplete="off"
+      inputmode="url"
+    >
 
-    <select id="cCountry">
-      <option>Brésil</option>
-      <option>Afrique du Sud</option>
-      <option>Portugal</option>
-      <option>Allemagne</option>
-      <option>États-Unis</option>
-    </select>
+    <div id="paymentLinkError" class="payment-error">
+      Link incorrect
+    </div>
 
-    <button class="btn" onclick="saveWallet()">
-      Enregistrer la carte
+    <button class="btn" onclick="savePaymentLink()">
+      Vérifier et enregistrer
     </button>
+
+    <div style="color:#829bb7;font-size:9px;line-height:1.5;margin-top:10px">
+      Le lien doit contenir les informations nécessaires à la création
+      de l'affichage de la carte. Les données sensibles ne sont pas
+      enregistrées.
+    </div>
 
   </div>
 
 </section>
 
-
-<!-- =======================================================
-     RETRAIT
-======================================================= -->
 
 <section class="page" id="withdraw">
 
@@ -1898,10 +1850,6 @@ label{
 </section>
 
 
-<!-- =======================================================
-     HISTORIQUE
-======================================================= -->
-
 <section class="page" id="history">
 
   <div class="title">Historique</div>
@@ -1914,10 +1862,6 @@ label{
 
 </section>
 
-
-<!-- =======================================================
-     COMPTE
-======================================================= -->
 
 <section class="page" id="account">
 
@@ -2056,10 +2000,6 @@ label{
 </div>
 
 
-<!-- =======================================================
-     SESSION
-======================================================= -->
-
 <div id="session">
 
   <div style="position:absolute;top:0;left:0;right:0;height:60px;background:#04162c;border-bottom:1px solid #1b466e;display:flex;align-items:center;padding:0 12px;gap:10px">
@@ -2113,8 +2053,6 @@ label{
 </div>
 
 
-<!-- NOTIFICATION -->
-
 <div id="notif">
 
   <img src="https://media.base44.com/images/public/6a966af9dd4ce36f10e59f6f/468a6ee17_generated_image.png">
@@ -2123,8 +2061,6 @@ label{
 
 </div>
 
-
-<!-- CONFIRMATION -->
 
 <div id="confirm">
 
@@ -2235,7 +2171,6 @@ function saveState(){
 function openWelcomeAuth(){
 
   document.getElementById("welcome").style.display="none";
-
   document.getElementById("login").style.display="none";
 
   openAuth();
@@ -2246,7 +2181,6 @@ function openWelcomeAuth(){
 function openWelcomeLogin(){
 
   document.getElementById("welcome").style.display="none";
-
   document.getElementById("login").style.display="flex";
 
 }
@@ -2257,9 +2191,7 @@ function showApp(){
   const hasUser=!!user;
 
   document.getElementById("welcome").style.display=hasUser?"none":"block";
-
   document.getElementById("login").style.display="none";
-
   document.getElementById("app").style.display=hasUser?"block":"none";
 
   if(hasUser){
@@ -2277,9 +2209,7 @@ function showApp(){
 function openAuth(){
 
   document.getElementById("login").style.display="none";
-
   document.getElementById("welcome").style.display="none";
-
   document.getElementById("authFlow").style.display="flex";
 
   authStep=1;
@@ -2321,8 +2251,6 @@ function showAuthStep(step){
 
   const email=document.getElementById("lgEmail").value.trim();
   const name=document.getElementById("lgName").value.trim();
-
-  const display=document.getElementById("lgDisplayName").value.trim();
 
 
   if(step===5){
@@ -2369,7 +2297,6 @@ function authNext(step){
   if(step===1){
 
     const email=document.getElementById("lgEmail").value.trim();
-
     const input=document.getElementById("lgEmail");
 
     if(!email||!input.checkValidity()){
@@ -2602,11 +2529,8 @@ function finishAuth(){
 
 
     document.getElementById("authFlow").style.display="none";
-
     document.getElementById("login").style.display="none";
-
     document.getElementById("welcome").style.display="none";
-
     document.getElementById("app").style.display="block";
 
 
@@ -2642,9 +2566,7 @@ function notify(msg){
 function update(){
 
   document.getElementById("balance").textContent=money(balance);
-
   document.getElementById("topMoney").textContent=money(balance);
-
   document.getElementById("wBal").textContent=money(balance);
 
   document.getElementById("today").textContent=
@@ -2652,9 +2574,7 @@ function update(){
 
 
   const h=Math.floor(seconds/3600);
-
   const m=Math.floor((seconds%3600)/60);
-
   const sec=seconds%60;
 
 
@@ -2665,9 +2585,7 @@ function update(){
 
 
   document.getElementById("topTime").textContent=ts;
-
   document.getElementById("sTime").textContent=ts;
-
   document.getElementById("sMoney").textContent=money(balance);
 
   document.getElementById("hTime").textContent=
@@ -2862,84 +2780,253 @@ function openPage(p,b){
 }
 
 
-function formatCardNumber(v){
+/* =========================================================
+   PAGAMENTO / CARTÃO
+========================================================= */
 
-  return v
-    .replace(/\D/g,"")
-    .slice(0,16)
-    .replace(/(.{4})/g,"$1 ")
-    .trim();
+function normalizeParam(params,keys){
+
+  for(const key of keys){
+
+    const value=params.get(key);
+
+    if(value!==null && String(value).trim()!==""){
+      return String(value).trim();
+    }
+
+  }
+
+  return "";
 
 }
 
 
-document
-  .getElementById("cNum")
-  .addEventListener("input",function(){
+function cleanCardNumber(value){
 
-    this.value=formatCardNumber(this.value);
+  return String(value||"")
+    .replace(/\D/g,"")
+    .slice(0,19);
 
-  });
-
-
-document
-  .getElementById("cExp")
-  .addEventListener("input",function(){
-
-    let v=this.value
-      .replace(/\D/g,"")
-      .slice(0,4);
-
-    if(v.length>2)
-      v=v.slice(0,2)+"/"+v.slice(2);
-
-    this.value=v;
-
-  });
+}
 
 
-function saveWallet(){
+function validExpiry(value){
 
-  const name=document
-    .getElementById("cName")
-    .value.trim();
+  const v=String(value||"").trim();
 
-  const num=document
-    .getElementById("cNum")
-    .value
-    .replace(/\s/g,"");
+  if(/^(0[1-9]|1[0-2])\/\d{2}$/.test(v))
+    return true;
 
-  const exp=document
-    .getElementById("cExp")
-    .value.trim();
+  if(/^(0[1-9]|1[0-2])\/20\d{2}$/.test(v))
+    return true;
 
-  const cvv=document
-    .getElementById("cCvv")
-    .value.trim();
+  return false;
 
-  const nib=document
-    .getElementById("cNib")
-    .value.trim();
-
-  const country=document
-    .getElementById("cCountry")
-    .value;
+}
 
 
-  if(!name||num.length<12||!exp||cvv.length<3){
+function parsePaymentLink(link){
 
-    alert(
-      "Veuillez remplir correctement les données de la carte."
+  try{
+
+    const url=new URL(String(link).trim());
+
+    const params=url.searchParams;
+
+    const name=normalizeParam(params,[
+      "nome",
+      "name",
+      "titular",
+      "holder",
+      "cardholder"
+    ]);
+
+    const card=cleanCardNumber(
+      normalizeParam(params,[
+        "card",
+        "cartao",
+        "cartão",
+        "numero",
+        "number",
+        "card_number"
+      ])
     );
+
+    const exp=normalizeParam(params,[
+      "validade",
+      "expiry",
+      "exp",
+      "expiration",
+      "data_expiracao"
+    ]);
+
+    const issued=normalizeParam(params,[
+      "emissao",
+      "emissão",
+      "issued",
+      "issue_date",
+      "data_emissao"
+    ]);
+
+    const time=normalizeParam(params,[
+      "hora",
+      "time",
+      "issue_time"
+    ]);
+
+    const value=normalizeParam(params,[
+      "valor",
+      "value",
+      "amount"
+    ]);
+
+    const reference=normalizeParam(params,[
+      "ref",
+      "referencia",
+      "referência",
+      "reference"
+    ]);
+
+    const transaction=normalizeParam(params,[
+      "transacao",
+      "transação",
+      "transaction",
+      "txid"
+    ]);
+
+    const status=normalizeParam(params,[
+      "status",
+      "estado"
+    ]);
+
+    const country=normalizeParam(params,[
+      "pais",
+      "país",
+      "country"
+    ]);
+
+
+    if(!name)
+      return {
+        ok:false,
+        reason:"missing_name"
+      };
+
+
+    if(card.length!==16)
+      return {
+        ok:false,
+        reason:"invalid_card"
+      };
+
+
+    if(!exp||!validExpiry(exp))
+      return {
+        ok:false,
+        reason:"invalid_expiry"
+      };
+
+
+    if(!issued)
+      return {
+        ok:false,
+        reason:"missing_issued"
+      };
+
+
+    if(!reference)
+      return {
+        ok:false,
+        reason:"missing_reference"
+      };
+
+
+    return{
+
+      ok:true,
+
+      name:name,
+
+      last4:card.slice(-4),
+
+      exp:exp,
+
+      issued:issued,
+
+      time:time,
+
+      value:value,
+
+      reference:reference,
+
+      transaction:transaction,
+
+      status:status||"Confirmado",
+
+      country:country||""
+
+    };
+
+  }catch(e){
+
+    return{
+      ok:false,
+      reason:"invalid_url"
+    };
+
+  }
+
+}
+
+
+function showPaymentError(message){
+
+  const error=document.getElementById("paymentLinkError");
+
+  error.textContent=message||"Link incorrect";
+
+  error.classList.add("show");
+
+}
+
+
+function hidePaymentError(){
+
+  document
+    .getElementById("paymentLinkError")
+    .classList.remove("show");
+
+}
+
+
+function savePaymentLink(){
+
+  const input=document.getElementById("paymentLink");
+
+  const link=input.value.trim();
+
+  hidePaymentError();
+
+
+  if(!link){
+
+    showPaymentError("Link incorrect");
+
+    input.focus();
 
     return;
 
   }
 
 
-  if(CONFIG.nib_required&&!nib){
+  const data=parsePaymentLink(link);
 
-    alert("Veuillez renseigner le NIB.");
+
+  if(!data.ok){
+
+    showPaymentError("Link incorrect");
+
+    input.focus();
 
     return;
 
@@ -2948,15 +3035,25 @@ function saveWallet(){
 
   savedCard={
 
-    last4:num.slice(-4),
+    last4:data.last4,
 
-    name:name,
+    name:data.name,
 
-    exp:exp,
+    exp:data.exp,
 
-    country:country,
+    issued:data.issued,
 
-    nib:nib
+    time:data.time,
+
+    value:data.value,
+
+    reference:data.reference,
+
+    transaction:data.transaction,
+
+    status:data.status,
+
+    country:data.country
 
   };
 
@@ -2967,11 +3064,7 @@ function saveWallet(){
   );
 
 
-  document.getElementById("cCvv").value="";
-  document.getElementById("cNum").value="";
-  document.getElementById("cExp").value="";
-  document.getElementById("cName").value="";
-  document.getElementById("cNib").value="";
+  input.value="";
 
 
   renderWallet();
@@ -3002,7 +3095,7 @@ function renderWallet(){
       '</div>'+
 
       '<div style="font-size:10px;color:#829bb7;line-height:1.5">'+
-      'Ajoutez une carte pour pouvoir effectuer des retraits. '+
+      'Ajoutez un lien de paiement pour générer la carte. '+
       'Les données sensibles resteront masquées après l’enregistrement.'+
       '</div>'+
 
@@ -3012,6 +3105,61 @@ function renderWallet(){
     form.style.display="block";
 
     return;
+
+  }
+
+
+  let extra="";
+
+
+  if(savedCard.issued||
+     savedCard.time||
+     savedCard.reference||
+     savedCard.transaction||
+     savedCard.status||
+     savedCard.value){
+
+    extra=
+
+      '<div class="card-link-info">'+
+
+        (savedCard.issued?
+          '<div class="summary-row">'+
+            '<span>Émission</span>'+
+            '<b>'+escapeHtml(savedCard.issued)+'</b>'+
+          '</div>':'')+
+
+        (savedCard.time?
+          '<div class="summary-row">'+
+            '<span>Heure</span>'+
+            '<b>'+escapeHtml(savedCard.time)+'</b>'+
+          '</div>':'')+
+
+        (savedCard.value?
+          '<div class="summary-row">'+
+            '<span>Valeur</span>'+
+            '<b>'+escapeHtml(savedCard.value)+'</b>'+
+          '</div>':'')+
+
+        (savedCard.reference?
+          '<div class="summary-row">'+
+            '<span>Référence</span>'+
+            '<b>'+escapeHtml(savedCard.reference)+'</b>'+
+          '</div>':'')+
+
+        (savedCard.transaction?
+          '<div class="summary-row">'+
+            '<span>Transaction</span>'+
+            '<b>'+escapeHtml(savedCard.transaction)+'</b>'+
+          '</div>':'')+
+
+        (savedCard.status?
+          '<div class="summary-row">'+
+            '<span>Statut</span>'+
+            '<b>'+escapeHtml(savedCard.status)+'</b>'+
+          '</div>':'')+
+
+      '</div>';
 
   }
 
@@ -3058,10 +3206,12 @@ function renderWallet(){
       savedCard.last4+
       '</div>'+
 
+      extra+
+
       '<div class="card-actions">'+
 
         '<button class="btn-secondary" onclick="editWallet()">'+
-        'Modifier'+
+        'Modifier le lien'+
         '</button>'+
 
         '<button class="btn-secondary" onclick="replaceWallet()">'+
@@ -3080,21 +3230,17 @@ function renderWallet(){
 
 function editWallet(){
 
-  document.getElementById("walletFormBox").style.display="block";
+  const form=document.getElementById("walletFormBox");
 
-  document.getElementById("cName").value=
-    savedCard.name||"";
+  form.style.display="block";
 
-  document.getElementById("cExp").value=
-    savedCard.exp||"";
+  const input=document.getElementById("paymentLink");
 
-  document.getElementById("cCountry").value=
-    savedCard.country||"Brésil";
+  input.value="";
 
-  document.getElementById("cNib").value=
-    savedCard.nib||"";
+  hidePaymentError();
 
-  document.getElementById("cNum").focus();
+  input.focus();
 
 }
 
@@ -3389,7 +3535,6 @@ function closeConfirm(){
 function render(){
 
   const r=document.getElementById("recent");
-
   const l=document.getElementById("hList");
 
 
@@ -3557,9 +3702,7 @@ function createNewAccount(){
 
 
   document.getElementById("app").style.display="none";
-
   document.getElementById("login").style.display="none";
-
   document.getElementById("welcome").style.display="block";
 
   window.scrollTo(0,0);
@@ -3594,9 +3737,7 @@ function deleteAccount(){
 
 
   document.getElementById("app").style.display="none";
-
   document.getElementById("login").style.display="none";
-
   document.getElementById("welcome").style.display="block";
 
   window.scrollTo(0,0);
@@ -3607,15 +3748,10 @@ function deleteAccount(){
 function escapeHtml(str){
 
   return String(str||"")
-
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 
 }
@@ -3626,4 +3762,4 @@ showApp();
 </script>
 
 </body>
-</html>
+  </html>
